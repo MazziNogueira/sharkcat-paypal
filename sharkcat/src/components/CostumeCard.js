@@ -7,8 +7,14 @@ const MainStyledComponent = styled.main`
 `
 
 const ImageComponent = styled.img`
-    max-height: 400px;
-    max-width: 400px;
+    max-height: 300px;
+    max-width: 300px;
+`
+
+const InfoSection = styled.section`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `
 
 const CostumeCard = () => {
@@ -17,11 +23,11 @@ const CostumeCard = () => {
             <section>
                 <ImageComponent src={catshark} alt='Cat wearing a shark costume.'/>
             </section>
-            <section>
+            <InfoSection>
                 <p><strong>Name: </strong>Shark Costume for Cats</p>
                 <p><strong>Item Number: </strong> 654464</p>
                 <p><strong>Price: </strong> U$30.00</p>
-            </section>
+            </InfoSection>
 
         </MainStyledComponent>
     )
