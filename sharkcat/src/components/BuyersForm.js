@@ -7,6 +7,12 @@ const LabelComponent = styled.label`
     margin-bottom: 4px;
 `
 
+const MainStyledComponent = styled.main`
+    display: flex;
+    justify-content: space-around;
+    width: 30vw;
+`
+
 const BuyersForm = () => {
     const { form, onChange } = useForm({
         firstName: '',
@@ -28,8 +34,8 @@ const BuyersForm = () => {
 
 
     return (
-        <main>
-            <form onSubmit={cadastrar}>
+        <MainStyledComponent>
+            <section>
                 <h4>
                     Personal Information
                 </h4>
@@ -45,7 +51,8 @@ const BuyersForm = () => {
 
                 <LabelComponent htmlFor='phoneNumber'>Phone Number</LabelComponent>
                 <input value={form.phoneNumber} name={'phoneNumber'} onChange={onChange} required />
-
+            </section>
+            <section>
                 <h4>
                     Address Information
                 </h4>
@@ -64,11 +71,8 @@ const BuyersForm = () => {
 
                 <LabelComponent htmlFor='country'>Country</LabelComponent>
                 <input value={form.country} name={'country'} onChange={onChange} required />
-
-                <button>Enviar</button>
-
-            </form>
-        </main>
+            </section>
+        </MainStyledComponent>
     )
 }
 

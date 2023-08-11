@@ -4,11 +4,13 @@ import catshark from '../media/catshark.jpg'
 const MainStyledComponent = styled.main`
     display: flex;
     flex-direction: row;
+    width: 50vw;
+    justify-content: space-around;
 `
 
 const ImageComponent = styled.img`
-    max-height: 300px;
-    max-width: 300px;
+    max-height: 20vw;
+    max-width: 20vw;
 `
 
 const InfoSection = styled.section`
