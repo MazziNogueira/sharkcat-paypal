@@ -26,11 +26,11 @@ const BuyersForm = () => {
         country: ''
     })
 
-    const cadastrar = (event) => {
-        event.preventDefault()
-        console.log('FORM ENVIADO', form)
-        // cleanFields viria aqui
-    }
+    // const cadastrar = (event) => {
+    //     event.preventDefault()
+    //     console.log('FORM ENVIADO', form)
+    //     // cleanFields viria aqui
+    // }
 
 
     return (
