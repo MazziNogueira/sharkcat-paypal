@@ -2,81 +2,59 @@
 import { PayPalButtons } from "@paypal/react-paypal-js"
 import { useState } from "react"
 
-const PaypalCheckoutButton = (props) => {
-    const [ paidFor, setPaidFor ] = useState(false)
-    const [ error, setError ] = useState(null)
+const PaypalCheckoutButton = () => {
+    const [message, setMessage] = useState(false)
+    const [orderId, setOrderId] = useState('')
 
-    const { product } = props
+    const serverUrl = 'http://localhost:8888'
 
-    const handleApprove = (orderId) => {
-        //call backend function to fullfill the order
-        // if the response is succesfull
-        setPaidFor(true)
+    const createOrder = async (data) => {
+        return fetch(`${serverUrl}/my-server/create-paypal-order`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                product: {
+                    description: 'Shark Fantasy For Cats',
+                    cost: '30.00'
+                }
+            }),
+        })
+            .then((response) => response.json())
+            .then((order) => order.id)
 
-        // refresh user's account or subscription status
-
-
-        // if the response is error
-        // setError('Your payment was processed successfully. However, we are unable to fulfill your purchase. Please contact us at support@designcode.io for assistance.")
     }
 
-    if(paidFor){
-        // display success message, modal or redirect the user to the success page
-
-        // alert('Thank you for your purchase!')
+    const onApprove = async (data) => {
+        return fetch(`${serverUrl}/my-server/capture-paypal-order`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                orderID: data.orderID
+            })
+        })
+            .then((response) => {
+                const order = response.json()
+                return order
+            })
+            .then((order) => {
+                setOrderId(order.id)
+                setMessage(true)
+            })
     }
 
-    if(error){
-        // display error message, modal or redirect the user to the error page
-        // alert(error)
-    }
 
     return (
         <section>
-            <PayPalButtons style={{ color: 'gold', shape:'pill'}} 
-            
-            onClick={(data, actions) => {
-                // validate on button click, client or server side
-                const hasAlreadyBoughtCourse = false
-
-                if(hasAlreadyBoughtCourse) {
-                    setError('You alreday bought this course. Go to your account to view yous list of courses')
-
-                    return actions.reject()
-                } else {
-                    return actions.resolve()
-                }
-            }}
-
-            createOrder={(data, actions) => {
-                return actions.order.create({
-                    purchase_units: [
-                        {
-                            description: product.description,
-                            amount: {
-                                value: product.price
-                            }
-                        }
-                    ]
-                })
-            }}
-        onApprove={ async(data, actions) => {
-            const order = await actions.order.capture()
-            console.log('order', order)
-
-            handleApprove(data.orderID)
-        }}
-
-        onCancel={() => {
-            // display cancel message, modal or redirect the user to cancel page or back to cart
-        }}
-
-        onError={(err) => {
-            setError(err)
-            console.log('Paypal error', err)
-        }}
-        
-        />
+            <PayPalButtons 
+                style={{ color: 'gold', shape: 'pill' }}
+                createOrder={(data, actions) => createOrder(data, actions)}
+                onApprove={(data, actions) => onApprove(data, actions)}
+            />
+            {message ? <h3>Payment successful! Your order ID is {orderId}</h3> : <></>}
         </section>
     )
 }
