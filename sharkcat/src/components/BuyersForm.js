@@ -26,13 +26,6 @@ const BuyersForm = () => {
         country: ''
     })
 
-    // const cadastrar = (event) => {
-    //     event.preventDefault()
-    //     console.log('FORM ENVIADO', form)
-    //     // cleanFields viria aqui
-    // }
-
-
     return (
         <MainStyledComponent>
             <section>
